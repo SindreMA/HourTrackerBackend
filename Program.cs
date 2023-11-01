@@ -70,6 +70,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(
+    b =>
+        b.SetIsOriginAllowed(
+                origin =>
+                    new Uri(origin).Host == "localhost" || true
+            )
+            .AllowCredentials()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+);
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
