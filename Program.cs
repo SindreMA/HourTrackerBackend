@@ -31,7 +31,7 @@ builder.Services
         o =>
         {
             // o.Cookies.ApplicationCookie.AutomaticChallenge = false;
-            o.Cookie.SameSite = SameSiteMode.None;
+            o.Cookie.SameSite = SameSiteMode.Unspecified;
             o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             o.ExpireTimeSpan = TimeSpan.FromDays(7);
             o.SlidingExpiration = true;
