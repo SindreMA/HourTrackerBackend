@@ -37,6 +37,7 @@ builder.Services
         }
     );
 
+
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 {
     options.TokenLifespan = TimeSpan.FromDays(7);
@@ -71,18 +72,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(
     b =>
-        b.WithOrigins("http://localhost:3000")
-            .WithOrigins("http://localhost:3001")
-            .WithOrigins("http://localhost:3002")
-            .WithOrigins("http://localhost:8080")
-            .WithOrigins("http://localhost:8081")
-            .WithOrigins("http://localhost:8082")
+        b.SetIsOriginAllowed(
+                origin =>
+                    new Uri(origin).Host == "localhost" || true
+            )
             .AllowCredentials()
             .AllowAnyMethod()
             .AllowAnyHeader()
 );
 
 app.UseHttpsRedirection();
+
+app.UseCookiePolicy(new CookiePolicyOptions() {
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always
+});
+
 
 app.UseAuthorization();
 
