@@ -30,8 +30,7 @@ builder.Services
         CookieAuthenticationDefaults.AuthenticationScheme,
         o =>
         {
-            // o.Cookies.ApplicationCookie.AutomaticChallenge = false;
-            o.Cookie.SameSite = SameSiteMode.Unspecified;
+            o.Cookie.SameSite = SameSiteMode.None;
             o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             o.ExpireTimeSpan = TimeSpan.FromDays(7);
             o.SlidingExpiration = true;
@@ -70,17 +69,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-                app.UseCors(b => b
-                                  .WithOrigins("http://localhost:3000")
-                                  .WithOrigins("http://localhost:3001")
-                                  .WithOrigins("http://localhost:3002")
-                                  .WithOrigins("http://localhost:8080")
-                                  .WithOrigins("http://localhost:8081")
-                                  .WithOrigins("http://localhost:8082")
-                                  .AllowCredentials()
-                                  .AllowAnyMethod()
-                                  .AllowAnyHeader()
-                  );
+app.UseCors(
+    b =>
+        b.WithOrigins("http://localhost:3000")
+            .WithOrigins("http://localhost:3001")
+            .WithOrigins("http://localhost:3002")
+            .WithOrigins("http://localhost:8080")
+            .WithOrigins("http://localhost:8081")
+            .WithOrigins("http://localhost:8082")
+            .AllowCredentials()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+);
 
 app.UseHttpsRedirection();
 
