@@ -54,6 +54,7 @@ builder.Services.Configure<IdentityOptions>(o =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    options.Cookie.SameSite = SameSiteMode.None;
     options.Events.OnRedirectToLogin = context =>
     {
         context.Response.StatusCode = 401;
