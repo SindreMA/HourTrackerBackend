@@ -70,16 +70,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(
-    b =>
-        b.SetIsOriginAllowed(
-                origin =>
-                    new Uri(origin).Host == "localhost" || true
-            )
-            .AllowCredentials()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-);
+                app.UseCors(b => b
+                                  .WithOrigins("http://localhost:3000")
+                                  .WithOrigins("http://localhost:3001")
+                                  .WithOrigins("http://localhost:3002")
+                                  .WithOrigins("http://localhost:8080")
+                                  .WithOrigins("http://localhost:8081")
+                                  .WithOrigins("http://localhost:8082")
+                                  .AllowCredentials()
+                                  .AllowAnyMethod()
+                                  .AllowAnyHeader()
+                  );
 
 app.UseHttpsRedirection();
 
