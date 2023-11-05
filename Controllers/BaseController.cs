@@ -1,11 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using HourTrackerBackend.Modals.Database;
+using Microsoft.AspNetCore.Identity;
+using HourTrackerBackend.Modals;
 
 namespace HourTrackerBackend.Controllers
 {
     public class BaseController : Controller
     {
+        string errorMsg = "You need to pass IHttpContextAccessor to base if you want to autoinject properties in constructor";
+        private HttpContext _httpContext;
+        private TrackerContext _context;
+        protected TrackerContext __context => _context ?? (_context = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<TrackerContext>());
+        private UserManager<User> _userManager;
+        protected UserManager<User> __userManager => _userManager ?? (_userManager = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<UserManager<User>>());
+        private string _username;
+        protected string __username => _username ?? (_username = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).User.Identity.Name);
+        private string _fromUrl;
+        protected string __fromUrl => _fromUrl ??
+            (
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "RefererWithSrc".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "RefererWithSrc".ToLower()).Value.FirstOrDefault() : 
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "Referer".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "Referer".ToLower()).Value.FirstOrDefault() : 
+                null
+            );
+        private string _userid;
+        protected string __userid => _userid ?? __userManager.GetUserId((HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).User);
+
+
+        public BaseController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContext = httpContextAccessor.HttpContext;
+        }
+
+
+        public BaseController()
+        {
+
+        }
+
         public Stopwatch sw = new Stopwatch();
 
         public override void OnActionExecuting(ActionExecutingContext context)

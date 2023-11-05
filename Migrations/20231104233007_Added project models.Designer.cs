@@ -3,6 +3,7 @@ using System;
 using HourTrackerBackend.Modals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HourTrackerBackend.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    partial class TrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20231104233007_Added project models")]
+    partial class Addedprojectmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace HourTrackerBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Commons");
+                    b.ToTable("Common");
                 });
 
             modelBuilder.Entity("HourTrackerBackend.Modals.Database.Mechanic", b =>
@@ -109,9 +112,6 @@ namespace HourTrackerBackend.Migrations
                     b.Property<int>("CommonId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -131,9 +131,6 @@ namespace HourTrackerBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int?>("ProjectId")
                         .HasColumnType("integer");
 
@@ -143,9 +140,6 @@ namespace HourTrackerBackend.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

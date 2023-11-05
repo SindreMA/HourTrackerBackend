@@ -19,9 +19,21 @@ namespace HourTrackerBackend.Helpers
             var context = new TrackerContext();
             var user = context.Users.FirstOrDefault(x=> x.UserName.ToLower() == username.ToLower());
 
+            var projects = context.Projects
+            .Include(p => p.Mechanics)
+            .Include(p => p.Todos)
+            .Include(p => p.Common).ThenInclude(c => c.Comments)
+            .ToList();
+
+            var mechanics = context.Mechanics
+            .Include(m => m.Projects)
+            .Include(m => m.Common).ThenInclude(c => c.Comments)
+            .ToList();
+
             var data = new
             {
-                userData = user,
+                projects = projects,
+                mechanics = mechanics
             };
             return data;
         }
