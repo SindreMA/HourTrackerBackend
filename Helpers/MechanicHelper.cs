@@ -21,6 +21,7 @@ namespace HourTrackerBackend.Helpers
                 Name = mechanic.Name,
                 About = mechanic.About,
                 Created = System.DateTime.UtcNow,
+                Type = mechanic.Type,
                 Common = new Common()
             };
             _context.Mechanics.Add(newMechanic);
@@ -40,6 +41,7 @@ namespace HourTrackerBackend.Helpers
             var dbMechanic = _context.Mechanics.Find(id);
             dbMechanic.Name = mechanic.Name;
             dbMechanic.About = mechanic.About;
+            dbMechanic.Type = mechanic.Type;
             _context.Mechanics.Update(dbMechanic);
             _context.SaveChanges();
             return dbMechanic;
