@@ -32,6 +32,7 @@ namespace HourTrackerBackend.Helpers
 
             var data = new
             {
+                user = user,
                 projects = projects,
                 mechanics = mechanics
             };
