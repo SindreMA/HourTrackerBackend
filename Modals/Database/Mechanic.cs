@@ -14,7 +14,7 @@ namespace HourTrackerBackend.Modals.Database
         public int Id { get; set; }
         public string Name { get; set; }
         public MechanicType Type { get; set; }
-        public List<Project> Projects { get; set; }
+        public List<ProjectMecanicLink> Links { get; set; }
         public DateTime Created { get; set; }
         public string About { get; set; }
         public int CommonId { get; set; }
