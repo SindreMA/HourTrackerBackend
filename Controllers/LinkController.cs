@@ -28,15 +28,15 @@ namespace HourTrackerBackend.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/week")]
-        public ActionResult AddWeekData(int id, [FromBody] WeekDataMessage weekData) {
-            _linkHelper.AddWeekData(id, weekData);
+        [HttpPost("{linkId}/week/{weekNumber}")]
+        public ActionResult AddWeekData(int linkId, int weekNumber, [FromBody] WeekDataMessage weekData) {
+            _linkHelper.AddWeekData(linkId, weekData, weekNumber);
             return Ok();
         }
 
-        [HttpPut("{id}/week")]
-        public ActionResult UpdateWeekData(int id, int week, [FromBody] WeekDataMessage weekData) {
-            _linkHelper.EditWeekData(id, weekData);
+        [HttpPut("{linkId}/week/{weekId}")]
+        public ActionResult UpdateWeekData(int linkId, int weekId, [FromBody] WeekDataMessage weekData) {
+            _linkHelper.EditWeekData(weekId, weekData);
             return Ok();
         }
     }

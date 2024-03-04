@@ -48,14 +48,14 @@ namespace HourTrackerBackend.Helpers
             return _context.ProjectMecanicLinks.Where(l => l.ProjectId == projectId).ToList();
         }
 
-        public void AddWeekData(int linkId, WeekDataMessage msg)
+        public void AddWeekData(int linkId, WeekDataMessage msg, int week)
         {
             var link = _context.ProjectMecanicLinks.Include(l => l.WeekData).FirstOrDefault(l => l.Id == linkId);
             if (link == null)
             {
                 throw new Exception("Link not found");
             }
-            var weekData = link.WeekData.FirstOrDefault(w => w.WeekNumber == msg.WeekNumber && w.Year == msg.Year);
+            var weekData = link.WeekData.FirstOrDefault(w => w.WeekNumber == week && w.Year == msg.Year);
             if (weekData != null)
             {
                 throw new Exception("Week data already exists");
@@ -63,7 +63,7 @@ namespace HourTrackerBackend.Helpers
 
             weekData = new WeekData
             {
-                WeekNumber = msg.WeekNumber,
+                WeekNumber = week,
                 Year = msg.Year,
                 SecondsWorked = msg.SecondsWorked,
                 Created = DateTime.UtcNow
@@ -73,14 +73,9 @@ namespace HourTrackerBackend.Helpers
             _context.SaveChanges();
         }
 
-        public void EditWeekData(int linkId, WeekDataMessage msg)
+        public void EditWeekData(int weekId, WeekDataMessage msg)
         {
-            var link = _context.ProjectMecanicLinks.Include(l => l.WeekData).FirstOrDefault(l => l.Id == linkId);
-            if (link == null)
-            {
-                throw new Exception("Link not found");
-            }
-            var weekData = link.WeekData.FirstOrDefault(w => w.WeekNumber == msg.WeekNumber && w.Year == msg.Year);
+            var weekData = _context.WeekData.FirstOrDefault(l => l.Id == weekId);
             if (weekData == null)
             {
                 throw new Exception("Week data not found");
