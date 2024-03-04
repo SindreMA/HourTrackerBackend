@@ -22,9 +22,9 @@ namespace HourTrackerBackend.Controllers
             return Ok();
         }
 
-        [HttpDelete("{projectId}/{mechanicId}")]
-        public ActionResult Delete(int projectId, int mechanicId) {
-            _linkHelper.RemoveLink(projectId);
+        [HttpDelete("{linkId}")]
+        public ActionResult Delete(int linkId) {
+            _linkHelper.RemoveLink(linkId);
             return Ok();
         }
 
