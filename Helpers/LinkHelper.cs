@@ -8,7 +8,7 @@ namespace HourTrackerBackend.Helpers
     public class LinkHelper
     {
         private TrackerContext _context;
-                
+
         public LinkHelper(TrackerContext context)
         {
             _context = context;
@@ -92,7 +92,7 @@ namespace HourTrackerBackend.Helpers
 
         internal void RemoveLinks(List<ProjectMecanicLink> links)
         {
-            _context.ProjectMecanicLinks.RemoveRange(links);            
+            _context.ProjectMecanicLinks.RemoveRange(links);
         }
     }
 }

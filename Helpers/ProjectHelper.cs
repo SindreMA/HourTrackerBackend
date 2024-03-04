@@ -58,7 +58,7 @@ namespace HourTrackerBackend.Helpers
             dbProject.About = project.About;
             _context.Projects.Update(dbProject);
             _context.SaveChanges();
-            return dbProject;   
+            return dbProject;
         }
 
         internal void AddMechanic(int id, int mechanicId)
@@ -88,8 +88,8 @@ namespace HourTrackerBackend.Helpers
             var link = project.Links.FirstOrDefault(m => m.MechanicId == mechanicId);
             if (link != null)
             {
-                _context.ProjectMecanicLinks.Remove(link);               
-                
+                _context.ProjectMecanicLinks.Remove(link);
+
                 _context.Projects.Update(project);
                 _context.SaveChanges();
             }

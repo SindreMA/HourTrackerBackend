@@ -4,6 +4,7 @@ using HourTrackerBackend.Modals;
 using HourTrackerBackend.Modals.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -101,6 +102,11 @@ app.UseCookiePolicy(new CookiePolicyOptions() {
     Secure = CookieSecurePolicy.Always
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<TrackerContext>();
+    dbContext.Database.Migrate();
+}
 
 app.UseAuthorization();
 
