@@ -9,11 +9,13 @@ namespace HourTrackerBackend.Helpers
     {
         private readonly TrackerContext _context;
         private readonly string _username;
+        private readonly LinkHelper _linkHelper;
 
-        public ProjectHelper(TrackerContext context, string username = null)
+        public ProjectHelper(TrackerContext context, string username = null, LinkHelper linkHelper = null)
         {
             _context = context;
             _username = username;
+            _linkHelper = linkHelper;
         }
 
         internal List<Project> GetProjects()
@@ -37,7 +39,14 @@ namespace HourTrackerBackend.Helpers
 
         internal void RemoveProject(int id)
         {
-            var project = _context.Projects.FirstOrDefault(p => p.Id == id);
+            var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == id);
+            if (project == null)
+            {
+                throw new Exception("Project not found");
+            }
+
+            _linkHelper.RemoveLinks(project.Links);
+
             _context.Projects.Remove(project);
             _context.SaveChanges();
         }
@@ -49,16 +58,21 @@ namespace HourTrackerBackend.Helpers
             dbProject.About = project.About;
             _context.Projects.Update(dbProject);
             _context.SaveChanges();
-            return dbProject;   
+            return dbProject;
         }
 
         internal void AddMechanic(int id, int mechanicId)
         {
-            var project = _context.Projects.Include(p => p.Mechanics).FirstOrDefault(p => p.Id == id);
-            var mechanic = project.Mechanics.FirstOrDefault(m => m.Id == mechanicId);
-            if (mechanic == null)
+            var project = _context.Projects.Include(p => p.Links).ThenInclude(x=> x.Mechanic).Include(p => p.Links).ThenInclude(x=> ((ProjectMecanicLink)x).WeekData).FirstOrDefault(p => p.Id == id);
+            var link = project.Links.FirstOrDefault(l => l.MechanicId == mechanicId);
+            if (link == null)
             {
-                project.Mechanics.Add(_context.Mechanics.Find(mechanicId));
+                project.Links.Add(new ProjectMecanicLink
+                {
+                    ProjectId = id,
+                    MechanicId = mechanicId,
+                    WeekData = new List<WeekData>()
+                });
                 _context.Projects.Update(project);
                 _context.SaveChanges();
             }
@@ -70,11 +84,12 @@ namespace HourTrackerBackend.Helpers
 
         internal void RemoveMechanic(int id, int mechanicId)
         {
-            var project = _context.Projects.Include(p => p.Mechanics).FirstOrDefault(p => p.Id == id);
-            var mechanic = project.Mechanics.FirstOrDefault(m => m.Id == mechanicId);
-            if (mechanic != null)
+            var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == id);
+            var link = project.Links.FirstOrDefault(m => m.MechanicId == mechanicId);
+            if (link != null)
             {
-                project.Mechanics.Remove(mechanic);
+                _context.ProjectMecanicLinks.Remove(link);
+
                 _context.Projects.Update(project);
                 _context.SaveChanges();
             }

@@ -20,8 +20,8 @@ namespace HourTrackerBackend.Controllers
         private string _fromUrl;
         protected string __fromUrl => _fromUrl ??
             (
-                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "RefererWithSrc".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "RefererWithSrc".ToLower()).Value.FirstOrDefault() : 
-                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "Referer".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "Referer".ToLower()).Value.FirstOrDefault() : 
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "RefererWithSrc".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "RefererWithSrc".ToLower()).Value.FirstOrDefault() :
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "Referer".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "Referer".ToLower()).Value.FirstOrDefault() :
                 null
             );
         private string _userid;
@@ -55,7 +55,7 @@ namespace HourTrackerBackend.Controllers
             {
                 $"Method: {context.HttpContext.Request.Method}",
                 $"Time used: {sw.ElapsedMilliseconds}ms",
-                $"Controller: {context.Controller.ToString().Split('.').LastOrDefault()}",
+                $"Controller: {context!.Controller!.ToString()!.Split('.').LastOrDefault()}",
                 $"Request: {context.HttpContext.Request.Path.Value}",
             };
 

@@ -20,13 +20,15 @@ namespace HourTrackerBackend.Helpers
             var user = context.Users.FirstOrDefault(x=> x.UserName.ToLower() == username.ToLower());
 
             var projects = context.Projects
-            .Include(p => p.Mechanics)
+            .Include(p => p.Links).ThenInclude(l => l.Mechanic)
+            .Include(p => p.Links).ThenInclude(l => ((ProjectMecanicLink)l).WeekData)
             .Include(p => p.Todos)
             .Include(p => p.Common).ThenInclude(c => c.Comments)
             .ToList();
 
             var mechanics = context.Mechanics
-            .Include(m => m.Projects)
+            .Include(p => p.Links).ThenInclude(l => l.Project)
+            .Include(p => p.Links).ThenInclude(l => ((ProjectMecanicLink)l).WeekData)
             .Include(m => m.Common).ThenInclude(c => c.Comments)
             .ToList();
 
