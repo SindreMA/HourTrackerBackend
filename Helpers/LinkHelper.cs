@@ -31,16 +31,16 @@ namespace HourTrackerBackend.Helpers
         {
             var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == projectId);
             var link = project.Links.FirstOrDefault(l => l.MechanicId == mechanicId);
-            if (link == null)
+            if (link != null) throw new Exception("Link already exists");
+
+            project.Links.Add(new ProjectMecanicLink
             {
-                project.Links.Add(new ProjectMecanicLink
-                {
-                    ProjectId = projectId,
-                    MechanicId = mechanicId,
-                    Created = DateTime.UtcNow
-                });
-                _context.SaveChanges();
-            }
+                ProjectId = projectId,
+                MechanicId = mechanicId,
+                Created = DateTime.UtcNow
+            });
+
+            _context.SaveChanges();
         }
 
         public List<ProjectMecanicLink> GetLinks(int projectId)
