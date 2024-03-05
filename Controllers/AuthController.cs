@@ -50,6 +50,9 @@ namespace HourTrackerBackend.Controllers
         {
             var authHelper = new AuthHelper(_userManager, _signInManager);
             var user = await authHelper.CreateUser(logininfo.username, logininfo.password);
+
+            await authHelper.Login(logininfo.username, logininfo.password);
+
             var helper = new GeneralHelper(_userManager);
             return Ok(helper.FirstLoadData(user.UserName));
         }
