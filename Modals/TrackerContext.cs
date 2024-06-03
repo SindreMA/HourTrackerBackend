@@ -19,7 +19,9 @@ namespace HourTrackerBackend.Modals
             base.OnModelCreating(builder);
         }
 
+#pragma warning disable CS0114 // Member hides inherited member; missing override keyword
         public DbSet<User> Users { get; set; }
+#pragma warning restore CS0114 // Member hides inherited member; missing override keyword
         public DbSet<Project> Projects { get; set; }
         public DbSet<Mechanic> Mechanics { get; set; }
         public DbSet<Todo> Todos { get; set; }

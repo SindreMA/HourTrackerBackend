@@ -25,16 +25,16 @@ namespace HourTrackerBackend.Controllers
         public ActionResult LoginCheck()
         {
             var helper = new GeneralHelper(_userManager);
-            return Ok(helper.FirstLoadData(HttpContext.User.Identity.Name));
+            return Ok(helper.FirstLoadData(HttpContext?.User?.Identity?.Name!));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] UserLogin logininfo)
+        public async Task<ActionResult> Login([FromBody] UserLogin loginInfo)
         {
             var authHelper = new AuthHelper(_userManager, _signInManager);
-            await authHelper.Login(logininfo.username, logininfo.password);
+            await authHelper.Login(loginInfo.username, loginInfo.password);
             var helper = new GeneralHelper(_userManager);
-            return Ok(helper.FirstLoadData(logininfo.username));
+            return Ok(helper.FirstLoadData(loginInfo.username));
         }
         [Authorize]
         [HttpPost("logout")]
@@ -46,15 +46,15 @@ namespace HourTrackerBackend.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create([FromBody] UserLogin logininfo)
+        public async Task<ActionResult> Create([FromBody] UserLogin loginInfo)
         {
             var authHelper = new AuthHelper(_userManager, _signInManager);
-            var user = await authHelper.CreateUser(logininfo.username, logininfo.password);
+            var user = await authHelper.CreateUser(loginInfo.username, loginInfo.password);
 
-            await authHelper.Login(logininfo.username, logininfo.password);
+            await authHelper.Login(loginInfo.username, loginInfo.password);
 
             var helper = new GeneralHelper(_userManager);
-            return Ok(helper.FirstLoadData(user.UserName));
+            return Ok(helper.FirstLoadData(user.UserName!));
         }
     }
 }

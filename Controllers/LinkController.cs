@@ -11,9 +11,9 @@ namespace HourTrackerBackend.Controllers
     public class LinkController : BaseController
     {
         private readonly LinkHelper _linkHelper;
-        public LinkController(IHttpContextAccessor ctx) : base(ctx)
+        public LinkController(IHttpContextAccessor ctx, LinkHelper linkHelper) : base(ctx)
         {
-            _linkHelper = new LinkHelper(__context);
+            _linkHelper = linkHelper;
         }
 
         [HttpPost("{projectId}/{mechanicId}")]

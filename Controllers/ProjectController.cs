@@ -11,9 +11,9 @@ namespace HourTrackerBackend.Controllers
     public class ProjectController : BaseController
     {
         private readonly ProjectHelper _projectHelper;
-        public ProjectController(IHttpContextAccessor ctx) : base(ctx)
+        public ProjectController(IHttpContextAccessor ctx, ProjectHelper projectHelper) : base(ctx)
         {
-            _projectHelper = new ProjectHelper(__context, __username);
+            _projectHelper = projectHelper;
         }
 
         [HttpGet]

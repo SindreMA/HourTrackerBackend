@@ -12,9 +12,9 @@ namespace HourTrackerBackend.Controllers
     public class TodoController : BaseController
     {
         private readonly TodoHelper _todoHelper;
-        public TodoController(IHttpContextAccessor ctx) : base(ctx)
+        public TodoController(IHttpContextAccessor ctx, TodoHelper todoHelper) : base(ctx)
         {
-            _todoHelper = new TodoHelper(__context, __username);
+            _todoHelper = todoHelper;
         }
 
         [HttpGet]

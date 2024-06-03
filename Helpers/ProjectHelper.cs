@@ -8,13 +8,13 @@ namespace HourTrackerBackend.Helpers
     public class ProjectHelper
     {
         private readonly TrackerContext _context;
-        private readonly string _username;
+        private readonly string? _username;
         private readonly LinkHelper _linkHelper;
 
-        public ProjectHelper(TrackerContext context, string username = null, LinkHelper linkHelper = null)
+        public ProjectHelper(TrackerContext context, LinkHelper linkHelper, HttpContextAccessor ctx)
         {
             _context = context;
-            _username = username;
+            _username = ctx.HttpContext?.User.Identity?.Name;
             _linkHelper = linkHelper;
         }
 
@@ -54,6 +54,9 @@ namespace HourTrackerBackend.Helpers
         internal Project UpdateProject(ProjectMessage project, int id)
         {
             var dbProject = _context.Projects.Find(id);
+
+            if (dbProject == null) throw new Exception("Project not found");
+
             dbProject.Name = project.Name;
             dbProject.About = project.About;
             _context.Projects.Update(dbProject);
@@ -64,6 +67,7 @@ namespace HourTrackerBackend.Helpers
         internal void AddMechanic(int id, int mechanicId)
         {
             var project = _context.Projects.Include(p => p.Links).ThenInclude(x=> x.Mechanic).Include(p => p.Links).ThenInclude(x=> ((ProjectMecanicLink)x).WeekData).FirstOrDefault(p => p.Id == id);
+            if (project == null) throw new Exception("Project not found");
             var link = project.Links.FirstOrDefault(l => l.MechanicId == mechanicId);
             if (link == null)
             {
@@ -85,6 +89,9 @@ namespace HourTrackerBackend.Helpers
         internal void RemoveMechanic(int id, int mechanicId)
         {
             var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == id);
+
+            if (project == null) throw new Exception("Project not found");
+
             var link = project.Links.FirstOrDefault(m => m.MechanicId == mechanicId);
             if (link != null)
             {

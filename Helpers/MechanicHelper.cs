@@ -7,11 +7,11 @@ namespace HourTrackerBackend.Helpers
     public class MechanicHelper
     {
         private readonly TrackerContext _context;
-        private readonly string _username;
-        public MechanicHelper(TrackerContext context, string username = null)
+        private readonly string? _username;
+        public MechanicHelper(TrackerContext context, IHttpContextAccessor ctx)
         {
             _context = context;
-            _username = username;
+            _username = ctx.HttpContext?.User?.Identity?.Name;
         }
 
         public Mechanic AddMechanic(MechanicMessage mechanic)
@@ -20,7 +20,7 @@ namespace HourTrackerBackend.Helpers
             {
                 Name = mechanic.Name,
                 About = mechanic.About,
-                Created = System.DateTime.UtcNow,
+                Created = DateTime.UtcNow,
                 Type = mechanic.Type,
                 Common = new Common()
             };
@@ -32,6 +32,9 @@ namespace HourTrackerBackend.Helpers
         public void RemoveMechanic(int id)
         {
             var mechanic = _context.Mechanics.Find(id);
+
+            if (mechanic == null) throw new Exception("NotFound");
+
             _context.Mechanics.Remove(mechanic);
             _context.SaveChanges();
         }
@@ -39,6 +42,9 @@ namespace HourTrackerBackend.Helpers
         public Mechanic UpdateMechanic(MechanicMessage mechanic, int id)
         {
             var dbMechanic = _context.Mechanics.Find(id);
+
+            if (dbMechanic == null) throw new Exception("NotFound");
+
             dbMechanic.Name = mechanic.Name;
             dbMechanic.About = mechanic.About;
             dbMechanic.Type = mechanic.Type;

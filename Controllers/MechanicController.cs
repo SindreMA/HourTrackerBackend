@@ -12,9 +12,9 @@ namespace HourTrackerBackend.Controllers
     public class MechanicController : BaseController
     {
         private readonly MechanicHelper _mechanicHelper;
-        public MechanicController(IHttpContextAccessor ctx) : base(ctx)
+        public MechanicController(IHttpContextAccessor ctx, MechanicHelper mechanicHelper) : base(ctx)
         {
-            _mechanicHelper = new MechanicHelper(__context, __username);
+            _mechanicHelper = mechanicHelper;
         }
 
         [HttpGet]

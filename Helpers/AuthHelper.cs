@@ -1,9 +1,5 @@
 ﻿using HourTrackerBackend.Modals.Database;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HourTrackerBackend.Helpers
 {
@@ -38,12 +34,12 @@ namespace HourTrackerBackend.Helpers
 
         internal async Task<bool> Login(string username, string password)
         {
-            var signin = await signInManager.PasswordSignInAsync(username, password, true, true);
-            if (!signin.Succeeded)
+            var signIn = await signInManager.PasswordSignInAsync(username, password, true, true);
+            if (!signIn.Succeeded)
             {
-                throw new Exception("unautorized");
+                throw new Exception("unauthorized");
             }
-            return signin.Succeeded;
+            return signIn.Succeeded;
         }
 
         internal async Task Logout()

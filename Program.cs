@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using HourTrackerBackend.Helpers;
 using HourTrackerBackend.Modals;
 using HourTrackerBackend.Modals.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.IgnoreNullValues = true;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     options.JsonSerializerOptions.WriteIndented = true;
@@ -73,6 +74,14 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddSingleton<LinkHelper>();
+builder.Services.AddSingleton<CommonHelper>();
+builder.Services.AddSingleton<MechanicHelper>();
+builder.Services.AddSingleton<ProjectHelper>();
+builder.Services.AddSingleton<TodoHelper>();
+builder.Services.AddSingleton<GeneralHelper>();
+
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

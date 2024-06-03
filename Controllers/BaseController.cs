@@ -12,31 +12,52 @@ namespace HourTrackerBackend.Controllers
         string errorMsg = "You need to pass IHttpContextAccessor to base if you want to autoinject properties in constructor";
         private HttpContext _httpContext;
         private TrackerContext _context;
-        protected TrackerContext __context => _context ?? (_context = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<TrackerContext>());
+        protected TrackerContext __context => _context ?? (_context = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<TrackerContext>()!);
         private UserManager<User> _userManager;
-        protected UserManager<User> __userManager => _userManager ?? (_userManager = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<UserManager<User>>());
+        protected UserManager<User> __userManager => _userManager ?? (_userManager = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).RequestServices.GetService<UserManager<User>>()!);
         private string _username;
-        protected string __username => _username ?? (_username = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).User.Identity.Name);
+        protected string __username => _username ?? (_username = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).User.Identity?.Name!)!;
         private string _fromUrl;
+#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8601 // Possible null reference assignment.
         protected string __fromUrl => _fromUrl ??
             (
-                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "RefererWithSrc".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "RefererWithSrc".ToLower()).Value.FirstOrDefault() :
-                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).Request.Headers.Any(x => x.Key.ToLower() == "Referer".ToLower()) ? (HttpContext ?? _httpContext).Request.Headers.FirstOrDefault(x => x.Key.ToLower() == "Referer".ToLower()).Value.FirstOrDefault() :
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg))!.Request.Headers.Any(x => x.Key.ToLower() == "RefererWithSrc".ToLower()) ? (HttpContext ?? _httpContext)?.Request?.Headers?.FirstOrDefault(x => x.Key.ToLower() == "RefererWithSrc".ToLower())!.Value!.FirstOrDefault()! :
+                _fromUrl = (HttpContext ?? _httpContext ?? throw new Exception(errorMsg))!.Request.Headers.Any(x => x.Key.ToLower() == "Referer".ToLower()) ? (HttpContext ?? _httpContext)?.Request?.Headers?.FirstOrDefault(x => x.Key.ToLower() == "Referer".ToLower()).Value.FirstOrDefault()! :
                 null
-            );
-        private string _userid;
-        protected string __userid => _userid ?? __userManager.GetUserId((HttpContext ?? _httpContext ?? throw new Exception(errorMsg)).User);
+            )!;
 
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public BaseController(IHttpContextAccessor httpContextAccessor)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
-            _httpContext = httpContextAccessor.HttpContext;
+            _httpContext = httpContextAccessor.HttpContext!;            
         }
 
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public BaseController()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
-
         }
 
         public Stopwatch sw = new Stopwatch();

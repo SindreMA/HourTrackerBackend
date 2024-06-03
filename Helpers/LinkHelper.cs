@@ -30,6 +30,9 @@ namespace HourTrackerBackend.Helpers
         public void AddLink(int projectId, int mechanicId)
         {
             var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == projectId);
+
+            if (project == null) throw new Exception("Project not found");
+
             var link = project.Links.FirstOrDefault(l => l.MechanicId == mechanicId);
             if (link != null) throw new Exception("Link already exists");
 

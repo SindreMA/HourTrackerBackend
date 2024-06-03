@@ -8,24 +8,26 @@ namespace HourTrackerBackend.Helpers
     public class TodoHelper
     {
         private readonly TrackerContext _context;
-        private readonly string _username;
+        private readonly string? _username;
 
-        public TodoHelper(TrackerContext context, string username = null)
+        public TodoHelper(TrackerContext context, IHttpContextAccessor ctx)
         {
             _context = context;
-            _username = username;
+            _username = ctx.HttpContext?.User?.Identity?.Name;
         }
 
         internal Todo AddTodoItem(TodoMessage todo, int id)
         {
             var project = _context.Projects.Include(p => p.Todos).FirstOrDefault(p => p.Id == id);
+
+            if (project == null) throw new Exception("NotFound");
             
             var newTodo = new Todo
             {
                 Title = todo.Title,
                 Status = todo.Status,
-                Created = System.DateTime.UtcNow,
-                Updated = System.DateTime.UtcNow
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow
             };
             project.Todos.Add(newTodo);
             _context.SaveChanges();
@@ -35,9 +37,12 @@ namespace HourTrackerBackend.Helpers
         internal Todo UpdateTodoItem(TodoMessage todo, int id)
         {
             var dbTodo = _context.Todos.Find(id);
+
+            if (dbTodo == null) throw new Exception("NotFound");
+
             dbTodo.Title = todo.Title;
             dbTodo.Status = todo.Status;
-            dbTodo.Updated = System.DateTime.UtcNow;
+            dbTodo.Updated = DateTime.UtcNow;
             _context.Todos.Update(dbTodo);
             _context.SaveChanges();
             return dbTodo;
@@ -46,6 +51,9 @@ namespace HourTrackerBackend.Helpers
         internal void RemoveTodoItem(int id)
         {
             var todo = _context.Todos.Find(id);
+
+            if (todo == null) throw new Exception("NotFound");
+
             _context.Todos.Remove(todo);
             _context.SaveChanges();
         }

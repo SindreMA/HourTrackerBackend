@@ -8,22 +8,23 @@ namespace HourTrackerBackend.Helpers
     public class CommonHelper
     {
         private readonly TrackerContext _context;
-        private readonly string _username;
-        public CommonHelper(TrackerContext context, string username = null)
+        private readonly string? _username;
+        public CommonHelper(TrackerContext context, IHttpContextAccessor ctx)
         {
             _context = context;
-            _username = username;
+            _username = ctx.HttpContext?.User?.Identity?.Name;
         }
 
         public Comment AddComment(int commonId, CommentMessage comment)
         {
             var user = _context.Users.Find(_username);
+            if (user == null) throw new System.Exception("Unauthorized");
             var common = _context.Commons.Include(x=> x.Comments).Single(x => x.Id == commonId);
             
             var newComment = new Comment
             {
                 Text = comment.Text,
-                Created = System.DateTime.UtcNow,
+                Created = DateTime.UtcNow,
                 User = user
             };
 
@@ -35,6 +36,7 @@ namespace HourTrackerBackend.Helpers
         public void RemoveComment(int id)
         {
             var comment = _context.Comments.Find(id);
+            if (comment == null) throw new System.Exception("NotFound");
             _context.Comments.Remove(comment);
             _context.SaveChanges();
         }

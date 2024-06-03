@@ -14,9 +14,9 @@ namespace HourTrackerBackend.Controllers
     public class CommonController : BaseController
     {
         private readonly CommonHelper _commonHelper;
-        public CommonController(IHttpContextAccessor ctx) : base(ctx)
+        public CommonController(IHttpContextAccessor ctx, CommonHelper commonHelper) : base(ctx)
         {
-            _commonHelper = new CommonHelper(__context, __username);
+            _commonHelper = commonHelper;
         }
 
         [HttpGet("{id}/comments")]

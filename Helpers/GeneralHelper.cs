@@ -7,17 +7,17 @@ namespace HourTrackerBackend.Helpers
 {
     public class GeneralHelper
     {
-        private UserManager<User> userManager;
+        private UserManager<User> _userManager;
 
         public GeneralHelper(UserManager<User> userManager)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
         }
 
         internal object FirstLoadData(string username)
         {
             var context = new TrackerContext();
-            var user = context.Users.FirstOrDefault(x=> x.UserName.ToLower() == username.ToLower());
+            var user = context.Users.FirstOrDefault(x=> x.UserName!.ToLower() == username.ToLower());
 
             var projects = context.Projects
             .Include(p => p.Links).ThenInclude(l => l.Mechanic)
