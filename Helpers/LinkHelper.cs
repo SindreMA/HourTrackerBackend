@@ -7,7 +7,7 @@ namespace HourTrackerBackend.Helpers
 {
     public class LinkHelper
     {
-        private TrackerContext _context;
+        private readonly TrackerContext _context;
 
         public LinkHelper(TrackerContext context)
         {

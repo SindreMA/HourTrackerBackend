@@ -72,17 +72,15 @@ builder.Services.ConfigureApplicationCookie(options =>
         return Task.CompletedTask;
     };
 });
-
-builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-builder.Services.AddSingleton<LinkHelper>();
-builder.Services.AddSingleton<CommonHelper>();
-builder.Services.AddSingleton<MechanicHelper>();
-builder.Services.AddSingleton<ProjectHelper>();
-builder.Services.AddSingleton<TodoHelper>();
-builder.Services.AddSingleton<GeneralHelper>();
-
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<LinkHelper>();
+builder.Services.AddScoped<CommonHelper>();
+builder.Services.AddScoped<MechanicHelper>();
+builder.Services.AddScoped<ProjectHelper>();
+builder.Services.AddScoped<TodoHelper>();
+builder.Services.AddScoped<GeneralHelper>();
+
 
 var app = builder.Build();
 

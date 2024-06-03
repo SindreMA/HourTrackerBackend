@@ -11,7 +11,7 @@ namespace HourTrackerBackend.Helpers
         private readonly string? _username;
         private readonly LinkHelper _linkHelper;
 
-        public ProjectHelper(TrackerContext context, LinkHelper linkHelper, HttpContextAccessor ctx)
+        public ProjectHelper(TrackerContext context, LinkHelper linkHelper, IHttpContextAccessor ctx)
         {
             _context = context;
             _username = ctx.HttpContext?.User.Identity?.Name;
