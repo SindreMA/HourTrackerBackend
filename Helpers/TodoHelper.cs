@@ -62,5 +62,10 @@ namespace HourTrackerBackend.Helpers
         {
             return _context.Todos.ToList();
         }
+
+        internal void RemoveTodos(List<Todo> todos)
+        {
+            _context.Todos.RemoveRange(todos);            
+        }
     }
 }

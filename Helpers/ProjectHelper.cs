@@ -10,12 +10,14 @@ namespace HourTrackerBackend.Helpers
         private readonly TrackerContext _context;
         private readonly string? _username;
         private readonly LinkHelper _linkHelper;
+        private readonly TodoHelper _todoHelper;
 
-        public ProjectHelper(TrackerContext context, LinkHelper linkHelper, IHttpContextAccessor ctx)
+        public ProjectHelper(TrackerContext context, LinkHelper linkHelper, IHttpContextAccessor ctx, TodoHelper todoHelper)
         {
             _context = context;
             _username = ctx.HttpContext?.User.Identity?.Name;
             _linkHelper = linkHelper;
+            _todoHelper = todoHelper;
         }
 
         internal List<Project> GetProjects()
@@ -46,6 +48,8 @@ namespace HourTrackerBackend.Helpers
             }
 
             _linkHelper.RemoveLinks(project.Links);
+
+            _todoHelper.RemoveTodos(project.Todos);
 
             _context.Projects.Remove(project);
             _context.SaveChanges();
