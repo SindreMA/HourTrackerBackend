@@ -89,7 +89,9 @@ namespace HourTrackerBackend.Helpers
         }
 
         internal void RemoveLinks(List<ProjectMecanicLink> links)
-        {
+        {   
+            _context.WeekData.RemoveRange(links.SelectMany(l => l.WeekData));
+
             _context.ProjectMecanicLinks.RemoveRange(links);
         }
     }
