@@ -41,7 +41,7 @@ namespace HourTrackerBackend.Helpers
 
         internal void RemoveProject(int id)
         {
-            var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == id);
+            var project = _context.Projects.Include(p => p.Links).Include(x=> x.Todos).FirstOrDefault(p => p.Id == id);
             if (project == null)
             {
                 throw new Exception("Project not found");
