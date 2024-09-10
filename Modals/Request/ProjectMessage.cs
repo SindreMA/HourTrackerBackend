@@ -4,5 +4,6 @@ namespace HourTrackerBackend.Modals.Request
     {
         public string Name { get; set; } = null!;
         public string About { get; set; } = null!;
+        public double EstimatedTimeInSeconds { get; set; } = 0;
     }
 }

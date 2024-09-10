@@ -10,6 +10,7 @@ namespace HourTrackerBackend.Modals.Database
         public List<ProjectMecanicLink> Links { get; set; } = new List<ProjectMecanicLink>();
         public List<Todo> Todos { get; set; } = new List<Todo>();
         public string About { get; set; } = null!;
+        public double EstimatedTimeInSeconds { get; set; }
         public int CommonId { get; set; }
         [ForeignKey("CommonId")]
         public Common Common { get; set; } = new Common();
