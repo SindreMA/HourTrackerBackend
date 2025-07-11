@@ -6,7 +6,7 @@ namespace HourTrackerBackend.Modals.Request
     {
         public string Name { get; set; } = null!;
         public string About { get; set; } = null!;
-        public int DefaultWeight { get; set; } = 1;
+        public int DefaultWeight { get; set; } = 100;
         public MechanicType Type { get; set; }
     }
 }

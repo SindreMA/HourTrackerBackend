@@ -17,7 +17,7 @@ namespace HourTrackerBackend.Modals.Database
         public List<ProjectMecanicLink> Links { get; set; } = new List<ProjectMecanicLink>();
         public DateTime Created { get; set; }
         public string About { get; set; } = null!;
-        public int DefaultWeight { get; set; } = 1;
+        public int DefaultWeight { get; set; } = 100;
         public int CommonId { get; set; }
         [ForeignKey("CommonId")]
         public Common Common { get; set; } = new Common();
