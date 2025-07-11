@@ -22,13 +22,14 @@ namespace HourTrackerBackend.Helpers
                 About = mechanic.About,
                 Created = DateTime.UtcNow,
                 Type = mechanic.Type,
+                DefaultWeight = mechanic.DefaultWeight,
                 Common = new Common()
             };
             _context.Mechanics.Add(newMechanic);
             _context.SaveChanges();
             return newMechanic;
         }
-        
+
         public void RemoveMechanic(int id)
         {
             var mechanic = _context.Mechanics.Find(id);
@@ -48,6 +49,7 @@ namespace HourTrackerBackend.Helpers
             dbMechanic.Name = mechanic.Name;
             dbMechanic.About = mechanic.About;
             dbMechanic.Type = mechanic.Type;
+            dbMechanic.DefaultWeight = mechanic.DefaultWeight;
             _context.Mechanics.Update(dbMechanic);
             _context.SaveChanges();
             return dbMechanic;

@@ -6,6 +6,7 @@ public class WeekData
     public int WeekNumber { get; set; }
     public int Year { get; set; }
     public int SecondsWorked { get; set; }
-    
+    public int Weight { get; set; } = 1;
+
     public DateTime Created { get; set; }
 }

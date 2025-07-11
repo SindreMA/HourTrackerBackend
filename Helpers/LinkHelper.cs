@@ -64,11 +64,13 @@ namespace HourTrackerBackend.Helpers
                 throw new Exception("Week data already exists");
             }
 
+
             weekData = new WeekData
             {
                 WeekNumber = week,
                 Year = msg.Year,
                 SecondsWorked = msg.SecondsWorked,
+                Weight = msg.Weight,
                 Created = DateTime.UtcNow
             };
 
@@ -84,12 +86,13 @@ namespace HourTrackerBackend.Helpers
                 throw new Exception("Week data not found");
             }
 
+            weekData.Weight = msg.Weight;
             weekData.SecondsWorked = msg.SecondsWorked;
             _context.SaveChanges();
         }
 
         internal void RemoveLinks(List<ProjectMecanicLink> links)
-        {   
+        {
             foreach (var link in links)
             {
                 var fetchedLink = _context.ProjectMecanicLinks.Include(l => l.WeekData).FirstOrDefault(l => l.Id == link.Id)!;
