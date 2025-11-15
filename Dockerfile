@@ -17,8 +17,7 @@ RUN dotnet publish "HourTrackerBackend.csproj" -c Release -o /app/publish /p:Use
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8080
 
 # Copy published application
 COPY --from=publish /app/publish .

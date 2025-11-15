@@ -113,7 +113,8 @@ app.UseCors(
             .AllowAnyHeader()
 );
 
-app.UseHttpsRedirection();
+// HTTPS redirection handled by ingress
+// app.UseHttpsRedirection();
 
 app.UseCookiePolicy(new CookiePolicyOptions() {
     MinimumSameSitePolicy = SameSiteMode.None,
