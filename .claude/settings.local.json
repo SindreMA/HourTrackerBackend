@@ -4,7 +4,8 @@
       "Bash(chmod +x \"build-and-publish.sh\")",
       "Read(//e/Old C/Programmer/sindre-k8s/manifests/**)",
       "Read(//e/Old C/Programmer/sindre-k8s/secrets/**)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

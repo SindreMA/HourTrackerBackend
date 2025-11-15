@@ -85,20 +85,22 @@ builder.Services.AddScoped<GeneralHelper>();
 var app = builder.Build();
 
 // Configure path base from environment variable (for deployment behind ingress with prefix)
-var pathBase = Environment.GetEnvironmentVariable("PATH_BASE");
+var pathBase = Environment.GetEnvironmentVariable("PATH_BASE") ?? string.Empty;
 if (!string.IsNullOrEmpty(pathBase))
 {
     app.UsePathBase(pathBase);
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI");
-        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+        var swaggerPath = string.IsNullOrEmpty(pathBase) ? "/swagger/v1/swagger.json" : $"{pathBase}/swagger/v1/swagger.json";
+        var stylePath = string.IsNullOrEmpty(pathBase) ? "/swagger-ui/SwaggerDark.css" : $"{pathBase}/swagger-ui/SwaggerDark.css";
+        c.SwaggerEndpoint(swaggerPath, "MyAPI");
+        c.InjectStylesheet(stylePath);
     });
 }
 
