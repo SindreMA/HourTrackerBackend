@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: registry.k8s.sindrema.com
-  IMAGE_NAME: images/hourtracker-api
+  IMAGE_NAME: images/hourtracker_api
   K8S_REPO: SindreMA/sindre-k8s
   K8S_DEPLOYMENT_PATH: manifests/hourtracker/hourtracker-api-deployment.yaml
 
