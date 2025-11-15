@@ -9,9 +9,9 @@ on:
 
 env:
   REGISTRY: registry.k8s.sindrema.com
-  IMAGE_NAME: images/hourtracker
+  IMAGE_NAME: images/hourtracker-api
   K8S_REPO: SindreMA/sindre-k8s
-  K8S_DEPLOYMENT_PATH: manifests/hourtracker/hourtracker-deployment.yaml
+  K8S_DEPLOYMENT_PATH: manifests/hourtracker/hourtracker-api-deployment.yaml
 
 jobs:
   build-and-push:
@@ -122,7 +122,7 @@ jobs:
             cat "${K8S_DEPLOYMENT_PATH}" | grep "image:"
           else
             echo "Committing changes..."
-            git commit -m "Update hourtracker deployment to image tag ${IMAGE_TAG}"
+            git commit -m "Update hourtracker-api deployment to image tag ${IMAGE_TAG}"
             git push
             echo "Successfully pushed deployment update!"
           fi
