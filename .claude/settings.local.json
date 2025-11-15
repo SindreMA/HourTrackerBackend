@@ -3,7 +3,8 @@
     "allow": [
       "Bash(chmod +x \"build-and-publish.sh\")",
       "Read(//e/Old C/Programmer/sindre-k8s/manifests/**)",
-      "Read(//e/Old C/Programmer/sindre-k8s/secrets/**)"
+      "Read(//e/Old C/Programmer/sindre-k8s/secrets/**)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []

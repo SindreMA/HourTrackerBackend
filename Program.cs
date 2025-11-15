@@ -84,6 +84,13 @@ builder.Services.AddScoped<GeneralHelper>();
 
 var app = builder.Build();
 
+// Configure path base from environment variable (for deployment behind ingress with prefix)
+var pathBase = Environment.GetEnvironmentVariable("PATH_BASE");
+if (!string.IsNullOrEmpty(pathBase))
+{
+    app.UsePathBase(pathBase);
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
