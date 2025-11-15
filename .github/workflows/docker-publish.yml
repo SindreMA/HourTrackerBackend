@@ -71,12 +71,31 @@ jobs:
           echo "Updating deployment to use image tag: ${IMAGE_TAG}"
           echo "Deployment file: ${K8S_DEPLOYMENT_PATH}"
 
-          # Update the deployment file
-          sed -i "s|image: ${REGISTRY}/${IMAGE_NAME}:.*|image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g" \
+          # Show current state
+          echo "Before update:"
+          cat "k8s-repo/${K8S_DEPLOYMENT_PATH}" | grep "image:" || echo "No image line found"
+
+          # Update the deployment file - match any tag after the image name
+          sed -i.bak "s|image: ${REGISTRY}/${IMAGE_NAME}:.*|image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g" \
             "k8s-repo/${K8S_DEPLOYMENT_PATH}"
 
-          # Show the change
-          cat "k8s-repo/${K8S_DEPLOYMENT_PATH}" | grep image:
+          # Also try without the full registry path in case format differs
+          sed -i.bak "s|image: ${IMAGE_NAME}:.*|image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g" \
+            "k8s-repo/${K8S_DEPLOYMENT_PATH}"
+
+          # Show the result
+          echo "After update:"
+          cat "k8s-repo/${K8S_DEPLOYMENT_PATH}" | grep "image:"
+
+          # Check if file actually changed
+          if ! diff -q "k8s-repo/${K8S_DEPLOYMENT_PATH}.bak" "k8s-repo/${K8S_DEPLOYMENT_PATH}" > /dev/null 2>&1; then
+            echo "File was successfully updated"
+          else
+            echo "Warning: File did not change, forcing update anyway"
+            # Force an update by ensuring the tag is written
+            sed -i "s|image:.*${IMAGE_NAME}.*|image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g" \
+              "k8s-repo/${K8S_DEPLOYMENT_PATH}"
+          fi
         env:
           REGISTRY: ${{ env.REGISTRY }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
@@ -87,10 +106,25 @@ jobs:
           cd k8s-repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "${K8S_DEPLOYMENT_PATH}"
 
           IMAGE_TAG="${{ steps.timestamp.outputs.tag }}"
-          git commit -m "Update hourtracker deployment to image tag ${IMAGE_TAG}" || echo "No changes to commit"
-          git push
+
+          # Show what we're about to commit
+          echo "Git status:"
+          git status
+
+          git add "${K8S_DEPLOYMENT_PATH}"
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes detected. The deployment file may already be at the correct version."
+            echo "Current image in deployment:"
+            cat "${K8S_DEPLOYMENT_PATH}" | grep "image:"
+          else
+            echo "Committing changes..."
+            git commit -m "Update hourtracker deployment to image tag ${IMAGE_TAG}"
+            git push
+            echo "Successfully pushed deployment update!"
+          fi
         env:
           K8S_DEPLOYMENT_PATH: ${{ env.K8S_DEPLOYMENT_PATH }}
