@@ -5,7 +5,12 @@
       "Read(//e/Old C/Programmer/sindre-k8s/manifests/**)",
       "Read(//e/Old C/Programmer/sindre-k8s/secrets/**)",
       "Bash(test:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dotnet tool install:*)",
+      "Bash(~/.dotnet/tools/dotnet-ef migrations add:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet package search:*)"
     ],
     "deny": [],
     "ask": []
