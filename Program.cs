@@ -127,6 +127,13 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TrackerContext>();
     dbContext.Database.Migrate();
+
+    // Ensure columns exist even if the migration was skipped or not applied.
+    // ADD COLUMN IF NOT EXISTS is a no-op when the column is already present.
+    dbContext.Database.ExecuteSqlRaw("""
+        ALTER TABLE "Projects" ADD COLUMN IF NOT EXISTS "MeerwerkSeconds" integer NOT NULL DEFAULT 0;
+        ALTER TABLE "Projects" ADD COLUMN IF NOT EXISTS "DhzSeconds" integer NOT NULL DEFAULT 0;
+        """);
 }
 
 app.UseAuthorization();
