@@ -29,6 +29,12 @@ namespace HourTrackerBackend.Controllers
         public ActionResult Put(int id, [FromBody] ProjectMessage project) =>
             Ok(_projectHelper.UpdateProject(project, id));
 
+        [HttpPut("{id}/extras")]
+        public ActionResult PutExtras(int id, [FromBody] ProjectExtrasMessage extras) {
+            _projectHelper.UpdateExtras(id, extras);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public ActionResult Delete(int id) {
             _projectHelper.RemoveProject(id);
