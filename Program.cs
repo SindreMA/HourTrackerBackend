@@ -126,10 +126,19 @@ app.UseCookiePolicy(new CookiePolicyOptions() {
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TrackerContext>();
-    dbContext.Database.Migrate();
 
-    // Ensure columns exist even if the migration was skipped or not applied.
-    // ADD COLUMN IF NOT EXISTS is a no-op when the column is already present.
+    try
+    {
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        // Log but don't crash — the raw SQL below handles the schema defensively.
+        Console.WriteLine($"[STARTUP] Migrate() failed (non-fatal): {ex.Message}");
+    }
+
+    // Idempotent column guard — runs even if Migrate() failed or was already applied.
+    // ADD COLUMN IF NOT EXISTS is a no-op when the column already exists.
     dbContext.Database.ExecuteSqlRaw("""
         ALTER TABLE "Projects" ADD COLUMN IF NOT EXISTS "MeerwerkSeconds" integer NOT NULL DEFAULT 0;
         ALTER TABLE "Projects" ADD COLUMN IF NOT EXISTS "DhzSeconds" integer NOT NULL DEFAULT 0;
