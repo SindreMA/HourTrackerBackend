@@ -71,6 +71,8 @@ namespace HourTrackerBackend.Helpers
                 Year = msg.Year,
                 SecondsWorked = msg.SecondsWorked,
                 Weight = msg.Weight,
+                WorkType = msg.WorkType,
+                Note = msg.Note,
                 Created = DateTime.UtcNow
             };
 
@@ -88,6 +90,8 @@ namespace HourTrackerBackend.Helpers
 
             weekData.Weight = msg.Weight;
             weekData.SecondsWorked = msg.SecondsWorked;
+            weekData.WorkType = msg.WorkType;
+            weekData.Note = msg.Note;
             _context.SaveChanges();
         }
 
