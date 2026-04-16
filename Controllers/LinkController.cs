@@ -39,5 +39,6 @@ namespace HourTrackerBackend.Controllers
             _linkHelper.EditWeekData(weekId, weekData);
             return Ok();
         }
+
     }
 }

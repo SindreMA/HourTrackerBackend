@@ -13,10 +13,10 @@ public class ProjectMecanicLink
     [ForeignKey("MechanicId")]
     public Mechanic Mechanic { get; set; } = null!;
     public int MechanicId { get; set; }
-    
+
     [ForeignKey("WeekDataId")]
     public List<WeekData> WeekData { get; set; } = new List<WeekData>();
     public int WeekDataId { get; set; }
-    
+
     public DateTime Created { get; set; }
 }

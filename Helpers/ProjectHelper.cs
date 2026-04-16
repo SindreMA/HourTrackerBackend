@@ -94,6 +94,16 @@ namespace HourTrackerBackend.Helpers
             }
         }
 
+        internal void UpdateExtras(int id, ProjectExtrasMessage msg)
+        {
+            var project = _context.Projects.Find(id);
+            if (project == null) throw new Exception("Project not found");
+
+            project.MeerwerkSeconds = msg.MeerwerkSeconds;
+            project.DhzSeconds = msg.DhzSeconds;
+            _context.SaveChanges();
+        }
+
         internal void RemoveMechanic(int id, int mechanicId)
         {
             var project = _context.Projects.Include(p => p.Links).FirstOrDefault(p => p.Id == id);

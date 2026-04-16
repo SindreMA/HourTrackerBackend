@@ -118,11 +118,17 @@ namespace HourTrackerBackend.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("DhzSeconds")
+                        .HasColumnType("integer");
+
                     b.Property<double>("EstimatedTimeInSeconds")
                         .HasColumnType("double precision");
 
                     b.Property<bool>("MaterialsDelivered")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("MeerwerkSeconds")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -269,9 +275,6 @@ namespace HourTrackerBackend.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("text");
-
                     b.Property<int>("SecondsWorked")
                         .HasColumnType("integer");
 
@@ -282,9 +285,6 @@ namespace HourTrackerBackend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Weight")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WorkType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Year")

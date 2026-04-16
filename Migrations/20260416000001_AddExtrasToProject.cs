@@ -5,35 +5,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HourTrackerBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddWorkTypeAndNoteToWeekData : Migration
+    public partial class AddExtrasToProject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "WorkType",
-                table: "WeekData",
+                name: "MeerwerkSeconds",
+                table: "Projects",
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Note",
-                table: "WeekData",
-                type: "text",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "DhzSeconds",
+                table: "Projects",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "WorkType",
-                table: "WeekData");
-
-            migrationBuilder.DropColumn(
-                name: "Note",
-                table: "WeekData");
+            migrationBuilder.DropColumn(name: "MeerwerkSeconds", table: "Projects");
+            migrationBuilder.DropColumn(name: "DhzSeconds", table: "Projects");
         }
     }
 }
