@@ -7,7 +7,9 @@ namespace HourTrackerBackend.Modals.Database
     {
         FullMechanic,
         HalfMechanic,
-        QuarterMechanic
+        QuarterMechanic,
+        Office,
+        Subcontracting
     }
     public class Mechanic
     {

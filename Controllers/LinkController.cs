@@ -40,5 +40,11 @@ namespace HourTrackerBackend.Controllers
             return Ok();
         }
 
+        [HttpPut("{linkId}/weight")]
+        public ActionResult UpdateAllWeeksWeight(int linkId, [FromBody] LinkWeightMessage weightMessage) {
+            _linkHelper.EditAllWeeksWeight(linkId, weightMessage.Weight);
+            return Ok();
+        }
+
     }
 }

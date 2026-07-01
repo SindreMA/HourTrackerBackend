@@ -87,6 +87,21 @@ namespace HourTrackerBackend.Helpers
             _context.SaveChanges();
         }
 
+        public void EditAllWeeksWeight(int linkId, int weight)
+        {
+            var link = _context.ProjectMecanicLinks.Include(l => l.WeekData).FirstOrDefault(l => l.Id == linkId);
+            if (link == null)
+            {
+                throw new Exception("Link not found");
+            }
+
+            foreach (var weekData in link.WeekData)
+            {
+                weekData.Weight = weight;
+            }
+            _context.SaveChanges();
+        }
+
         internal void RemoveLinks(List<ProjectMecanicLink> links)
         {
             foreach (var link in links)
